@@ -1,9 +1,11 @@
 package igye.springhibernate;
 
 import igye.springhibernate.model.Item;
+import igye.springhibernate.model.Message;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.dialect.Database;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,74 +27,44 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.Properties;
 
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@Transactional
-@TestPropertySource("classpath:log.properties")
+@HibernateTestConfig
 public class HiberConfTest {
     @Autowired
-    private EntityManagerFactory emf;
-
+//    private EntityManagerFactory emf;
     private SessionFactory sessionFactory;
 
-    @Before
-    public void before() {
-        sessionFactory = emf.unwrap(SessionFactory.class);
-    }
+//    @Before
+//    public void before() {
+//        sessionFactory = emf.unwrap(SessionFactory.class);
+//    }
 
     @Test
-    public void checkSession() throws SQLException {
-        Session session = sessionFactory.getCurrentSession();
+    public void sessionShouldBeAvailable() throws SQLException {
+        Session session = getCurrentSession();
         Item item = new Item();
         session.save(item);
         session.flush();
     }
 
-    @Configuration
-    @EnableTransactionManagement
-    public static class Conf {
-
-        @Bean
-        public EmbeddedDatabase dataSource() {
-            EmbeddedDatabase db = new EmbeddedDatabaseBuilder()
-                    .generateUniqueName(true)
-                    .setType(H2)
-                    .setScriptEncoding("UTF-8")
-                    .ignoreFailedDrops(true)
-//                    .addScript("schema.sql")
-//                    .addScripts("user_data.sql", "country_data.sql")
-                    .build();
-
-            return db;
-        }
-
-        @Bean
-        public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
-            LocalSessionFactoryBean res = new LocalSessionFactoryBean();
-            res.setDataSource(dataSource);
-            res.setPackagesToScan("igye.springhibernate.model");
-            Properties props = new Properties();
-            props.put("hibernate.dialect", Database.H2);
-            props.put("hibernate.format_sql", "true");
-            props.put("hibernate.use_sql_comments", "true");
-//            props.put("hibernate.show_sql", "true");
-            props.put("hibernate.hbm2ddl.auto", "create-drop");
-            res.setHibernateProperties(props);
-            return res;
-        }
-
-        @Bean
-        public HibernateTransactionManager transactionManager(DataSource dataSource) {
-            HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-            transactionManager.setSessionFactory(sessionFactory(dataSource).getObject());
-            return transactionManager;
-        }
+    @Test
+    public void saveMethodShouldReturnTheSameId() throws SQLException {
+        Session session = getCurrentSession();
+        Message msg = new Message();
+        msg.setText("tttteeexxxttt");
+        Long id1 = (Long) session.save(msg);
+        Long id2 = (Long) session.save(msg);
+        Assert.assertEquals(id1, id2);
     }
 
+    private Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
+    }
 
 }
