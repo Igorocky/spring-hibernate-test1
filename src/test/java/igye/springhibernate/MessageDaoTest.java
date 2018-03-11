@@ -78,5 +78,6 @@ public class MessageDaoTest {
         Assert.assertEquals(2, messages.size());
         logger.info("00TRANS - {}", session.getTransaction().getStatus());
 
+//        TestUtils.exploreDB(session);
     }
 }
