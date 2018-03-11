@@ -20,14 +20,13 @@ import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @HibernateTestConfig
 @ContextConfiguration(classes = MessageDao.class)
 public class MessageDaoTest {
-    private static final Logger logger = LogManager.getLogger(MessageDaoTest.class);
+    private static final Logger logger = LogManager.getLogger();
 
     @Autowired
     private MessageDao dao;
