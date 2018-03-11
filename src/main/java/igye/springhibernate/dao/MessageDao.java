@@ -31,7 +31,8 @@ public class MessageDao {
     @Transactional
     public List<Message> loadMessagesByText(String text) {
         return getCurrentSession()
-                .createQuery("select m from Message m where m.text like '%" + text + "%'")
+                .createQuery("select m from Message m where m.text like '%'||:text||'%'")
+                .setParameter("text", text)
                 .getResultList();
     }
 
