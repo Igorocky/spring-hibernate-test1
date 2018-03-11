@@ -28,7 +28,10 @@
         <Logger name="org.hibernate.SQL" level="debug">
             <AppenderRef ref="file-sql"/>
         </Logger>
-        <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="debug">
+        <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace">
+            <AppenderRef ref="file-sql"/>
+        </Logger>
+        <Logger name="sql-debug" level="debug">
             <AppenderRef ref="file-sql"/>
         </Logger>
         <Root level="INFO">
