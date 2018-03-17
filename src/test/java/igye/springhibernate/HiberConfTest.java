@@ -25,7 +25,7 @@ public class HiberConfTest extends AbstractHibernateTest {
         Item item = new Item();
         session.save(item);
         session.flush();
-        TestUtils.exploreDB(session);
+//        TestUtils.exploreDB(session);
     }
 
     @Test
@@ -122,6 +122,6 @@ public class HiberConfTest extends AbstractHibernateTest {
                 .getSingleResult();
 
         Assert.assertEquals(Long.valueOf(2), res.getNumberOfMessages());
-        TestUtils.exploreDB(session);
+//        TestUtils.exploreDB(session);
     }
 }
