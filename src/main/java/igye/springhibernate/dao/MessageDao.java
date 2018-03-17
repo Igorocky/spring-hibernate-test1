@@ -16,14 +16,34 @@ public class MessageDao {
 
     @Transactional
     public Message saveMessage(Message msg) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = getCurrentSession();
         session.save(msg);
         return msg;
     }
 
     @Transactional
+    public Message persistMessage(Message msg) {
+        Session session = getCurrentSession();
+        session.persist(msg);
+        return msg;
+    }
+
+    @Transactional
+    public List<Message> loadMessagesByText(String text) {
+        return getCurrentSession()
+                .createQuery("select m from Message m where m.text like '%'||:text||'%'")
+                .setParameter("text", text)
+                .getResultList();
+    }
+
+    @Transactional
     public List<Message> loadAllMessages() {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = getCurrentSession();
         return session.createQuery("select m from Message m").getResultList();
     }
+
+    private Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
+    }
+
 }

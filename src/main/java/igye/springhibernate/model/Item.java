@@ -1,11 +1,8 @@
 package igye.springhibernate.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.sun.istack.internal.NotNull;
 
-import static javax.persistence.GenerationType.*;
+import javax.persistence.*;
 
 @Entity
 public class Item {
@@ -13,7 +10,31 @@ public class Item {
     @GeneratedValue
     protected Long id;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    protected AuctionType auctionTypeEnumerated = AuctionType.HIGHEST_BID;
+
+    @NotNull
+    @Convert(converter = AuctionTypeConverter.class)
+    protected AuctionType auctionTypeConverted = AuctionType.HIGHEST_BID;
+
     public Long getId() {
         return id;
+    }
+
+    public AuctionType getAuctionTypeEnumerated() {
+        return auctionTypeEnumerated;
+    }
+
+    public void setAuctionTypeEnumerated(AuctionType auctionTypeEnumerated) {
+        this.auctionTypeEnumerated = auctionTypeEnumerated;
+    }
+
+    public AuctionType getAuctionTypeConverted() {
+        return auctionTypeConverted;
+    }
+
+    public void setAuctionTypeConverted(AuctionType auctionTypeConverted) {
+        this.auctionTypeConverted = auctionTypeConverted;
     }
 }
