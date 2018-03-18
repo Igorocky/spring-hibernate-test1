@@ -9,6 +9,10 @@ public class User implements Serializable {
     @Id
     @GeneratedValue
     protected Long id;
+    @Convert(
+            converter = ZipcodeConverter.class,
+            attributeName = "city.zipcode"
+    )
     protected Address homeAddress;
     @Embedded
     @AttributeOverrides({
@@ -21,6 +25,10 @@ public class User implements Serializable {
             @AttributeOverride(name = "city.country",
                     column = @Column(name = "BILLING_COUNTRY"))
     })
+    @Convert(
+            converter = ZipcodeConverter.class,
+            attributeName = "city.zipcode"
+    )
     protected Address billingAddress;
 
     public Long getId() {

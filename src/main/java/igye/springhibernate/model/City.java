@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 public class City {
     @NotNull
     @Column(/*nullable = false, */length = 5)
-    protected String zipcode;
+    protected Zipcode zipcode;
     @NotNull
 //    @Column(nullable = false)
     protected String name;
@@ -16,11 +16,11 @@ public class City {
 //    @Column(nullable = false)
     protected String country;
 
-    public String getZipcode() {
+    public Zipcode getZipcode() {
         return zipcode;
     }
 
-    public void setZipcode(String zipcode) {
+    public void setZipcode(Zipcode zipcode) {
         this.zipcode = zipcode;
     }
 
