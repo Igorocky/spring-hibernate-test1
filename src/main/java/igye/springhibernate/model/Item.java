@@ -21,11 +21,24 @@ public class Item {
     protected AuctionType auctionTypeConverted = AuctionType.HIGHEST_BID;
 
     @NotNull
-    @Convert(
-            converter = MonetaryAmountConverter.class,
-            disableConversion = false)
-    @Column(name = "PRICE", length = 63)
+    @org.hibernate.annotations.Type(
+            type = "monetary_amount_usd"
+    )
+    @org.hibernate.annotations.Columns(columns = {
+            @Column(name = "BUYNOWPRICE_AMOUNT"),
+            @Column(name = "BUYNOWPRICE_CURRENCY", length = 3)
+    })
     protected MonetaryAmount buyNowPrice;
+
+    @NotNull
+    @org.hibernate.annotations.Type(
+            type = "monetary_amount_eur"
+    )
+    @org.hibernate.annotations.Columns(columns = {
+            @Column(name = "INITIALPRICE_AMOUNT"),
+            @Column(name = "INITIALPRICE_CURRENCY", length = 3)
+    })
+    protected MonetaryAmount initialPrice;
 
     public Long getId() {
         return id;
@@ -53,5 +66,13 @@ public class Item {
 
     public void setBuyNowPrice(MonetaryAmount buyNowPrice) {
         this.buyNowPrice = buyNowPrice;
+    }
+
+    public MonetaryAmount getInitialPrice() {
+        return initialPrice;
+    }
+
+    public void setInitialPrice(MonetaryAmount initialPrice) {
+        this.initialPrice = initialPrice;
     }
 }

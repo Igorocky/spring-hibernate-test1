@@ -3,7 +3,7 @@ package igye.springhibernate.model;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-@Converter(autoApply = true)
+//@Converter(autoApply = true)
 public class MonetaryAmountConverter implements AttributeConverter<MonetaryAmount, String> {
     @Override
     public String convertToDatabaseColumn(MonetaryAmount monetaryAmount) {
