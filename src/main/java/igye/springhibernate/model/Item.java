@@ -20,6 +20,13 @@ public class Item {
     @Convert(converter = AuctionTypeConverter.class)
     protected AuctionType auctionTypeConverted = AuctionType.HIGHEST_BID;
 
+    @NotNull
+    @Convert(
+            converter = MonetaryAmountConverter.class,
+            disableConversion = false)
+    @Column(name = "PRICE", length = 63)
+    protected MonetaryAmount buyNowPrice;
+
     public Long getId() {
         return id;
     }
@@ -38,5 +45,13 @@ public class Item {
 
     public void setAuctionTypeConverted(AuctionType auctionTypeConverted) {
         this.auctionTypeConverted = auctionTypeConverted;
+    }
+
+    public MonetaryAmount getBuyNowPrice() {
+        return buyNowPrice;
+    }
+
+    public void setBuyNowPrice(MonetaryAmount buyNowPrice) {
+        this.buyNowPrice = buyNowPrice;
     }
 }
