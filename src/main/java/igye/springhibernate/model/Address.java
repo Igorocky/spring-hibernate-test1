@@ -1,5 +1,7 @@
 package igye.springhibernate.model;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
@@ -10,18 +12,19 @@ public class Address {
 //    @Column(nullable = false)
     protected String street;
     @NotNull
-    @Column(/*nullable = false, */length = 5)
-    protected String zipcode;
-    @NotNull
-//    @Column(nullable = false)
-    protected String city;
+    @AttributeOverrides(
+            @AttributeOverride(
+                    name = "name",
+                    column = @Column(name = "CITY"/*, nullable = false*/)
+            )
+    )
+    protected City city;
 
     public Address() {
     }
 
-    public Address(String street, String zipcode, String city) {
+    public Address(String street, City city) {
         this.street = street;
-        this.zipcode = zipcode;
         this.city = city;
     }
 
@@ -33,19 +36,11 @@ public class Address {
         this.street = street;
     }
 
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
-
-    public String getCity() {
+    public City getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(City city) {
         this.city = city;
     }
 }
