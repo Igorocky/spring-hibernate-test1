@@ -1,9 +1,11 @@
 package igye.springhibernate.model;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@DiscriminatorValue("CC")
 public class CreditCard extends BillingDetails {
     @NotNull
     protected String cardNumber;

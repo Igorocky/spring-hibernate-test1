@@ -32,6 +32,11 @@ public class HiberConfTest extends AbstractHibernateTest {
     }
 
     @Test
+    public void queryingSubclass() {
+        getCurrentSession().createQuery("select cc from CreditCard cc").getResultList();
+    }
+
+    @Test
     public void savingAndReadingEmbeddableComponentWithAllFieldsNull() {
         //given
         Long id = transactionTemplate.execute(status -> {
