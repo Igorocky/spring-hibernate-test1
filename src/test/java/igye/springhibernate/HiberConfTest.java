@@ -1,8 +1,6 @@
 package igye.springhibernate;
 
-import igye.springhibernate.model.Item;
-import igye.springhibernate.model.Message;
-import igye.springhibernate.model.TextCount;
+import igye.springhibernate.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -26,6 +24,25 @@ public class HiberConfTest extends AbstractHibernateTest {
         session.save(item);
         session.flush();
 //        TestUtils.exploreDB(session);
+    }
+
+    @Test
+    public void savingAndReadingEmbeddableComponentWithAllFieldsNull() {
+        //given
+        Long id = transactionTemplate.execute(status -> {
+            Session session = HiberConfTest.this.getCurrentSession();
+            User user = new User();
+            user.setHomeAddress(new Address());
+            return (Long) session.save(user);
+        });
+
+        //when
+        Address addr = transactionTemplate.execute(
+                status -> getCurrentSession().load(User.class, id).getHomeAddress()
+        );
+
+        //then
+        Assert.assertNull(addr);
     }
 
     @Test
