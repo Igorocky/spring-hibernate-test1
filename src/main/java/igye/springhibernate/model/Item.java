@@ -40,6 +40,9 @@ public class Item {
     })
     protected MonetaryAmount initialPrice;
 
+    protected Dimensions dimensions;
+    protected Weight weight;
+
     public Long getId() {
         return id;
     }
@@ -74,5 +77,21 @@ public class Item {
 
     public void setInitialPrice(MonetaryAmount initialPrice) {
         this.initialPrice = initialPrice;
+    }
+
+    public Dimensions getDimensions() {
+        return dimensions;
+    }
+
+    public void setDimensions(Dimensions dimensions) {
+        this.dimensions = dimensions;
+    }
+
+    public Weight getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Weight weight) {
+        this.weight = weight;
     }
 }
