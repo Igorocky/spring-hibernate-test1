@@ -1,15 +1,23 @@
 package igye.springhibernate.model;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@DiscriminatorValue("CC")
+@SecondaryTable(
+        name = "CREDITCARD",
+        pkJoinColumns = @PrimaryKeyJoinColumn(name = "CREDITCARD_ID")
+)
 public class CreditCard extends BillingDetails {
     @NotNull
+    @Column(table = "CREDITCARD")
     protected String cardNumber;
     @NotNull
+    @Column(table = "CREDITCARD")
     protected String expMonth;
     @NotNull
+    @Column(table = "CREDITCARD")
     protected String expYear;
 
     public String getCardNumber() {
