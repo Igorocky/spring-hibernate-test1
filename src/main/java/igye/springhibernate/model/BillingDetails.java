@@ -4,8 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "BD_TYPE")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class BillingDetails {
     @Id
     @GeneratedValue
