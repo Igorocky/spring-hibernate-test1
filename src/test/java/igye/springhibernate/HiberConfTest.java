@@ -40,7 +40,6 @@ public class HiberConfTest extends AbstractHibernateTest {
             image.setFilePath("img1");
             image.setParent(folder);
 
-            session.save(folder);
             return session.save(image);
         });
 

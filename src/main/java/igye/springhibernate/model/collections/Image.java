@@ -1,8 +1,10 @@
 package igye.springhibernate.model.collections;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 
-import static javax.persistence.CascadeType.PERSIST;
+import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
 
 @Entity
 public class Image {
@@ -10,7 +12,8 @@ public class Image {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade(SAVE_UPDATE)
     private Folder parent;
 
     private String filePath;
