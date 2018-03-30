@@ -34,22 +34,29 @@ public class HiberConfTest extends AbstractHibernateTest {
         Serializable id = transactionTemplate.execute(status -> {
             Session session = HiberConfTest.this.getCurrentSession();
             Folder folder = new Folder();
+            Serializable res = session.save(folder);
             folder.setName("fl1");
 
-            Image image = new Image();
+            Image image = new Image(folder);
             image.setFilePath("img1");
-            image.setParent(folder);
+            folder.getImages().add(image);
 
-            return session.save(image);
+            image = new Image(folder);
+            image.setFilePath("img2");
+            folder.getImages().add(image);
+
+            return res;
+//            return session.save(folder);
         });
 
-        String folderName = transactionTemplate.execute(status -> {
+        Image img = transactionTemplate.execute(status -> {
             Session session = HiberConfTest.this.getCurrentSession();
-            Image image = session.load(Image.class, id);
-            return image.getParent().getName();
+//            TestUtils.exploreDB(session);
+            Folder folder = session.load(Folder.class, id);
+            return folder.getImages().iterator().next();
         });
 
-        Assert.assertEquals("fl1", folderName);
+        Assert.assertEquals("fl1", img.getParent().getName());
 //        TestUtils.exploreDB(session);
     }
 

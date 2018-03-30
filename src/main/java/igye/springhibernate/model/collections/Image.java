@@ -18,6 +18,13 @@ public class Image {
 
     private String filePath;
 
+    public Image() {
+    }
+
+    public Image(Folder parent) {
+        this.parent = parent;
+    }
+
     public Long getId() {
         return id;
     }
