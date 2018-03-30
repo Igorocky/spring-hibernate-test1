@@ -31,28 +31,26 @@ public class HiberConfTest extends AbstractHibernateTest {
 
     @Test
     public void reference_to_parent_should_be_assigned_to_child_element() {
-        Serializable fid = transactionTemplate.execute(status -> {
+        Serializable id = transactionTemplate.execute(status -> {
             Session session = HiberConfTest.this.getCurrentSession();
             Folder folder = new Folder();
+            folder.setName("fl1");
 
             Image image = new Image();
             image.setFilePath("img1");
-            folder.getImages().add(image);
+            image.setParent(folder);
 
-            image = new Image();
-            image.setFilePath("img2");
-            folder.getImages().add(image);
-
-            return session.save(folder);
+            session.save(folder);
+            return session.save(image);
         });
 
-        Image img = transactionTemplate.execute(status -> {
+        String folderName = transactionTemplate.execute(status -> {
             Session session = HiberConfTest.this.getCurrentSession();
-            Folder folder = session.load(Folder.class, fid);
-            return folder.getImages().iterator().next();
+            Image image = session.load(Image.class, id);
+            return image.getParent().getName();
         });
 
-        Assert.assertEquals(fid, img.getParent().getId());
+        Assert.assertEquals("fl1", folderName);
 //        TestUtils.exploreDB(session);
     }
 

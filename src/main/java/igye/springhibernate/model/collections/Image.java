@@ -1,15 +1,23 @@
 package igye.springhibernate.model.collections;
 
-import org.hibernate.annotations.Parent;
+import javax.persistence.*;
 
-import javax.persistence.Embeddable;
+import static javax.persistence.CascadeType.PERSIST;
 
-@Embeddable
+@Entity
 public class Image {
-    @Parent
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {PERSIST})
     private Folder parent;
 
     private String filePath;
+
+    public Long getId() {
+        return id;
+    }
 
     public String getFilePath() {
         return filePath;
