@@ -1,6 +1,8 @@
 package igye.springhibernate;
 
 import igye.springhibernate.model.*;
+import igye.springhibernate.model.collections.Folder;
+import igye.springhibernate.model.collections.Image;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -9,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static igye.springhibernate.TestUtils.SQL_DEBUG_LOGGER_NAME;
@@ -23,6 +26,33 @@ public class HiberConfTest extends AbstractHibernateTest {
         Item item = new Item();
         session.save(item);
         session.flush();
+//        TestUtils.exploreDB(session);
+    }
+
+    @Test
+    public void reference_to_parent_should_be_assigned_to_child_element() {
+        Serializable fid = transactionTemplate.execute(status -> {
+            Session session = HiberConfTest.this.getCurrentSession();
+            Folder folder = new Folder();
+
+            Image image = new Image();
+            image.setFilePath("img1");
+            folder.getImages().add(image);
+
+            image = new Image();
+            image.setFilePath("img2");
+            folder.getImages().add(image);
+
+            return session.save(folder);
+        });
+
+        Image img = transactionTemplate.execute(status -> {
+            Session session = HiberConfTest.this.getCurrentSession();
+            Folder folder = session.load(Folder.class, fid);
+            return folder.getImages().iterator().next();
+        });
+
+        Assert.assertEquals(fid, img.getParent().getId());
 //        TestUtils.exploreDB(session);
     }
 
