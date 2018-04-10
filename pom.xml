@@ -48,5 +48,14 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>project_lib</id>
+            <name>Repository in project's lib dir</name>
+            <layout>default</layout>
+            <url>file:///./lib</url>
+        </repository>
+    </repositories>
+
     
 </project>
